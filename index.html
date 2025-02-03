@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>pressforsurprise!!</title> <!-- Update the website name here -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: rgb(250, 110, 133); /* Set the background color to light pink */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        flex-direction: column; /* Arrange items in a column */
+      }
+      div {
+        text-align: center;
+      }
+      #valentineGif {
+        margin-bottom: 20px; /* Add space below the GIF */
+      }
+      #nobutton {
+        background-color: rgb(237, 31, 31);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 10px; /* Make the corners rounded */
+        transition: left 0.5s, top 0.5s; /* Add transition for smooth movement */
+        position: absolute; /* Ensure the button can move freely */
+      }
+      #yesbutton {
+        background-color: rgb(19, 154, 19);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 10px; /* Make the corners rounded */
+        font-family: 'Arial', sans-serif; /* Change the font */
+        transition: width 0.5s, height 0.5s, font-size 0.5s; /* Add transition for smooth size change */
+      }
+      h1 {
+        font-family: 'Pacifico', cursive; /* Use Pacifico font */
+        margin-bottom: 20px; /* Add space below the title */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <img id="valentineGif" src="https://media2.giphy.com/media/0xxp9ySrJE88ZHxXfn/giphy.gif?cid=6c09b952l7rxzlzl51u6j2e20yfi32ilgg974f04pni2gj2a&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Valentine GIF">
+      <h1>Will you be my valentine?</h1>
+      <div class="buttons">
+        <button id="yesbutton">Yes</button>
+        <button id="nobutton">No</button>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("yesbutton").addEventListener("click", function showAlert() {
+        alert("I love you! See you soon <3");
+        document.getElementById("valentineGif").src = "https://media0.giphy.com/media/bAUOBlj720rNoqOGYS/giphy.gif?cid=6c09b952z2xk7ntr3f4p1bjy8ie0740senctvl3pl9wxm89q&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g";
+        
+        // Remove all elements except the new GIF
+        var contentDiv = document.getElementById("content");
+        contentDiv.innerHTML = '<img id="valentineGif" src="https://media0.giphy.com/media/bAUOBlj720rNoqOGYS/giphy.gif?cid=6c09b952z2xk7ntr3f4p1bjy8ie0740senctvl3pl9wxm89q&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Valentine GIF"><h1>Yayyy</h1>';
+      });
+
+      var noButton = document.getElementById("nobutton");
+      var noButtonTexts = ["No", "Are you sure?", "Really sure?", "Really really sure?", "Still a no?", "How about now?", "Still?", "Come on please press it", "pretty please?", "Pretty please with a cherry on top?", "Fine, I give up","Press the green button", "I'm begging you", "Last chance","press","the","green","button", "please"];
+      var noButtonIndex = 0;
+
+      noButton.addEventListener("click", change);
+
+      function change() {
+        var yesButton = document.getElementById("yesbutton");
+        var yesButtonRect = yesButton.getBoundingClientRect();
+        var noButtonRect = noButton.getBoundingClientRect();
+        var titleRect = document.querySelector('h1').getBoundingClientRect();
+        var gifRect = document.getElementById("valentineGif").getBoundingClientRect();
+
+        if (noButtonIndex >= 19) {
+          noButton.style.display = 'none';
+          yesButton.innerText = "Be my valentine <33";
+          yesButton.style.position = 'relative';
+          yesButton.style.left = '0';
+          yesButton.style.top = '0';
+          yesButton.style.margin = '0 auto'; /* Center the button */
+          return;
+        }
+
+        var x, y;
+        do {
+          x = Math.floor(Math.random() * (window.innerWidth - noButtonRect.width));
+          y = Math.floor(Math.random() * (window.innerHeight - noButtonRect.height));
+        } while (
+          (x < yesButtonRect.right && x + noButtonRect.width > yesButtonRect.left && y < yesButtonRect.bottom && y + noButtonRect.height > yesButtonRect.top) ||
+          (x < titleRect.right && x + noButtonRect.width > titleRect.left && y < titleRect.bottom && y + noButtonRect.height > titleRect.top) ||
+          (x < gifRect.right && x + noButtonRect.width > gifRect.left && y < gifRect.bottom && y + noButtonRect.height > gifRect.top)
+        );
+
+        // Ensure the button stays within the viewport
+        x = Math.max(0, Math.min(x, window.innerWidth - noButtonRect.width));
+        y = Math.max(0, Math.min(y, window.innerHeight - noButtonRect.height));
+
+        noButton.style.left = x + "px";
+        noButton.style.top = y + "px";
+
+        noButton.innerText = noButtonTexts[noButtonIndex];
+        noButtonIndex++;
+
+        // Adjust the width of the noButton to fit the new text
+        noButton.style.width = 'auto';
+        noButton.style.whiteSpace = 'nowrap';
+
+        var currentWidth = parseInt(window.getComputedStyle(yesButton).width);
+        var currentHeight = parseInt(window.getComputedStyle(yesButton).height);
+        var currentFontSize = parseInt(window.getComputedStyle(yesButton).fontSize);
+        yesButton.style.width = (currentWidth + 10) + "px";
+        yesButton.style.height = (currentHeight + 10) + "px";
+        yesButton.style.fontSize = (currentFontSize + 2) + "px";
+      }
+    </script>
+  </body>
+</html>
